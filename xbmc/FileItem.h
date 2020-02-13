@@ -538,6 +538,9 @@ public:
   int m_iHasLock; // 0 - no lock 1 - lock, but unlocked 2 - locked
   int m_iBadPwdCount;
 
+  bool m_bIsPlayCountOverrided;
+  bool m_bIsResumeTimeOverrided;
+
   void SetCueDocument(const CCueDocumentPtr& cuePtr);
   void LoadEmbeddedCue();
   bool HasCueDocument() const;

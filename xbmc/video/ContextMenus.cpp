@@ -44,6 +44,9 @@ bool CRemoveResumePoint::IsVisible(const CFileItem& itemIn) const
   if (item.IsDeleted()) // e.g. trashed pvr recording
     return false;
 
+  if (itemIn.m_bIsResumeTimeOverrided && itemIn.m_bIsPlayCountOverrided)
+    return false;
+
   return CGUIWindowVideoBase::HasResumeItemOffset(&item);
 }
 
@@ -70,6 +73,9 @@ bool CMarkWatched::IsVisible(const CFileItem& item) const
   else if (!item.HasVideoInfoTag())
     return false;
 
+  if (item.m_bIsPlayCountOverrided)
+    return false;
+
   return item.GetVideoInfoTag()->GetPlayCount() == 0;
 }
 
@@ -94,6 +100,9 @@ bool CMarkUnWatched::IsVisible(const CFileItem& item) const
       return URIUtils::IsPVRRecordingFileOrFolder(item.GetPath());
   }
   else if (!item.HasVideoInfoTag())
+    return false;
+
+  if (item.m_bIsPlayCountOverrided)
     return false;
 
   return item.GetVideoInfoTag()->GetPlayCount() > 0;

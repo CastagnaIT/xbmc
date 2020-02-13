@@ -215,6 +215,7 @@ namespace XBMCAddon
         CBookmark resumePoint(GetVideoInfoTag()->GetResumePoint());
         resumePoint.timeInSeconds = static_cast<float>(atof(value.c_str()));
         GetVideoInfoTag()->SetResumePoint(resumePoint);
+        item->m_bIsResumeTimeOverrided = true;
       }
       else if (lowerKey == "specialsort")
       {
@@ -382,7 +383,10 @@ namespace XBMCAddon
           else if (key == "watched") // backward compat - do we need it?
             videotag.SetPlayCount(strtol(value.c_str(), nullptr, 10));
           else if (key == "playcount")
+          {
             videotag.SetPlayCount(strtol(value.c_str(), nullptr, 10));
+            item->m_bIsPlayCountOverrided = true;
+          }
           else if (key == "overlay")
           {
             long overlay = strtol(value.c_str(), nullptr, 10);
