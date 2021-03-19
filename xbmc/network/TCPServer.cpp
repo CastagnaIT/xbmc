@@ -227,6 +227,10 @@ void CTCPServer::Announce(ANNOUNCEMENT::AnnouncementFlag flag,
                           const std::string& message,
                           const CVariant& data)
 {
+  // JSONRPC conversion is memory-consuming, only execute it if we have connections
+  if (!m_connections.size())
+    return;
+
   std::string str = IJSONRPCAnnouncer::AnnouncementToJSONRPC(flag, sender, message, data, CServiceBroker::GetSettingsComponent()->GetAdvancedSettings()->m_jsonOutputCompact);
 
   for (unsigned int i = 0; i < m_connections.size(); i++)

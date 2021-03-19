@@ -414,10 +414,15 @@ void XBPython::OnNotification(const std::string& sender,
 {
   XBMC_TRACE;
   LOCK_AND_COPY(std::vector<XBMCAddon::xbmc::Monitor*>, tmp, m_vecMonitorCallbackList);
+
   for (auto& it : tmp)
   {
+    // Here if these variables are not copied cause wrong read/write memory access from other thread...!?
+    std::string dataCopy = data;
+    std::string methodCopy = method;
+    std::string senderCopy = sender;
     if (CHECK_FOR_ENTRY(m_vecMonitorCallbackList, it))
-      it->OnNotification(sender, method, data);
+      it->OnNotification(senderCopy, methodCopy, dataCopy);
   }
 }
 

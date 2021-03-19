@@ -67,8 +67,11 @@ namespace XBMCAddon
       inline void OnNotification(const String& sender, const String& method, const String& data)
       {
         XBMC_TRACE;
-        invokeCallback(new CallbackFunction<Monitor, const String, const String, const String>(
-            this, &Monitor::onNotification, sender, method, data));
+        Callback* cf;
+        cf = new CallbackFunction<Monitor, const String, const String, const String>(
+            this, &Monitor::onNotification, sender, method, data);
+        invokeCallback(cf);
+        delete cf;
       }
 
       inline const String& GetId() { return Id; }
