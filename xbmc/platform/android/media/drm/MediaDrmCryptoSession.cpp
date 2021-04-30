@@ -134,6 +134,13 @@ Buffer CMediaDrmCryptoSession::GetKeyRequest(const Buffer& init,
   return Buffer();
 }
 
+Buffer CMediaDrmCryptoSession::GetSessionId()
+{
+  if (m_sessionId)
+    return m_sessionId;
+
+  return Buffer();
+}
 
 std::string CMediaDrmCryptoSession::GetPropertyString(const std::string& name)
 {

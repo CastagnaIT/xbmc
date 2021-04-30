@@ -36,6 +36,14 @@ namespace XBMCAddon
       return Buffer();
     }
 
+    Buffer CryptoSession::GetSessionId()
+    {
+      if (m_cryptoSession)
+        return m_cryptoSession->GetSessionId();
+
+      return Buffer();
+    }
+
     String CryptoSession::GetPropertyString(const String &name)
     {
       if (m_cryptoSession)

@@ -140,6 +140,21 @@ namespace XBMCAddon
 #ifdef DOXYGEN_SHOULD_USE_THIS
       ///
       /// \ingroup python_xbmcdrm
+      /// @brief \python_func{ GetSessionId() }
+      /// Get the current DRM session ID
+      ///
+      ///
+      ///------------------------------------------------------------------------
+      /// @python_v20 New function added.
+      ///
+      GetSessionId();
+#else
+      XbmcCommons::Buffer GetSessionId();
+#endif
+
+#ifdef DOXYGEN_SHOULD_USE_THIS
+      ///
+      /// \ingroup python_xbmcdrm
       /// @brief \python_func{ GetPropertyString(name) }
       /// Request a system specific property value of the %DRM system.
       ///
