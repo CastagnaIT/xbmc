@@ -14,7 +14,7 @@
 #include "utils/HTMLUtil.h"
 #include "utils/RegExp.h"
 #include "utils/StringUtils.h"
-
+#include "utils/log.h"
 CDVDSubtitleTagSami::~CDVDSubtitleTagSami()
 {
   delete m_tags;
@@ -182,6 +182,16 @@ void CDVDSubtitleTagSami::ConvertLine(CDVDOverlayText* pOverlay, const char* lin
       // Unicode no-break space
       strUTF8.insert(pos, "\xC2\xA0");
       pos += 2;
+    }
+    else if (StringUtils::StartsWith(fullTag, "{\\an"))
+    {
+      std::string tagOptionValue;
+      tagOptionValue = fullTag.substr(4, 1);
+      if (tagOptionValue == "8") //Top center
+      {
+        pOverlay->m_textXPosition = 0.5f;
+        pOverlay->m_textYPosition = 0.15f;
+      }
     }
   }
 

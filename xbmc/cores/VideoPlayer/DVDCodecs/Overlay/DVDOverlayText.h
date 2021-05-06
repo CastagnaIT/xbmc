@@ -102,6 +102,8 @@ public:
   {
     m_pHead = NULL;
     m_pEnd = NULL;
+    m_textXPosition = NULL;
+    m_textYPosition = NULL;
   }
 
   CDVDOverlayText(CDVDOverlayText& src)
@@ -109,6 +111,8 @@ public:
   {
     m_pHead = NULL;
     m_pEnd = NULL;
+    m_textXPosition = src.m_textXPosition;
+    m_textYPosition = src.m_textYPosition;
     for(CElement* e = src.m_pHead; e; e = e->pNext)
     {
       if(e->IsElementType(ELEMENT_TYPE_TEXT))
@@ -153,5 +157,7 @@ public:
 
   CElement* m_pHead;
   CElement* m_pEnd;
+  float m_textXPosition;
+  float m_textYPosition;
 };
 

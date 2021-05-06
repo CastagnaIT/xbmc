@@ -124,10 +124,21 @@ COverlayText::COverlayText(CDVDOverlayText * src)
   m_subalign = CServiceBroker::GetSettingsComponent()->GetSettings()->GetInt(CSettings::SETTING_SUBTITLES_ALIGN);
   if (m_subalign == SUBTITLE_ALIGN_MANUAL)
   {
-    m_align  = ALIGN_SUBTITLE;
-    m_pos    = POSITION_RELATIVE;
-    m_x      = 0.0f;
-    m_y      = 0.0f;
+    // use the subtitles positions when specified
+    if (src->m_textXPosition != 0.0f || src->m_textYPosition != 0.0f)
+    {
+      m_align = ALIGN_VIDEO;
+      m_pos = POSITION_RELATIVE;
+      m_x = src->m_textXPosition;
+      m_y = src->m_textYPosition;
+    }
+    else
+    {
+      m_align = ALIGN_SUBTITLE;
+      m_pos = POSITION_RELATIVE;
+      m_x = 0.0f;
+      m_y = 0.0f;
+    }
   }
   else
   {
