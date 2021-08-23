@@ -7,6 +7,7 @@
  */
 #include "AddonCallback.h"
 
+
 namespace XBMCAddon
 {
   // need a place to put the vtab
@@ -18,6 +19,18 @@ namespace XBMCAddon
     {
       if (hasHandler())
         handler->invokeCallback(callback);
+      else
+        callback->executeCallback();
+    }
+  }
+
+  
+  void AddonCallback::invokeCallback(std::shared_ptr<Callback> callback)
+  {
+    if (callback)
+    {
+      if (hasHandler())
+        handler->invokeCallback(std::move(callback));
       else
         callback->executeCallback();
     }

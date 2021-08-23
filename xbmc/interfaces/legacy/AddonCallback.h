@@ -13,6 +13,8 @@
 #include "CallbackHandler.h"
 #include "LanguageHook.h"
 
+#include <memory>
+
 namespace XBMCAddon
 {
 
@@ -39,5 +41,6 @@ namespace XBMCAddon
 
     inline void setHandler(CallbackHandler* _handler) { handler = _handler; }
     void invokeCallback(Callback* callback);
+    void invokeCallback(std::shared_ptr<Callback> callback);
   };
 }

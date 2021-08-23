@@ -11,6 +11,8 @@
 #include "AddonClass.h"
 #include "CallbackFunction.h"
 
+#include <memory>
+
 namespace XBMCAddon
 {
   /**
@@ -25,6 +27,9 @@ namespace XBMCAddon
 
   public:
     virtual void invokeCallback(Callback* cb) = 0;
+
+
+    virtual void invokeCallback(std::shared_ptr<Callback> cb) = 0;
   };
 
   /**
@@ -48,11 +53,19 @@ namespace XBMCAddon
     ~RetardedAsyncCallbackHandler() override;
 
     void invokeCallback(Callback* cb) override;
+
     static void makePendingCalls();
     static void clearPendingCalls(void* userData);
 
     virtual bool isStateOk(AddonClass* obj) =  0;
     virtual bool shouldRemoveCallback(AddonClass* obj, void* userData) = 0;
+
+
+
+    void invokeCallback(std::shared_ptr<Callback> cb) override;
+    static void makePendingCallsNew();
+    static void clearPendingCallsNew(void* userData);
+    void UnloadRetardedAsyncCallbackHandlerNew();
   };
 
 }

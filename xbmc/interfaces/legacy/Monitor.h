@@ -11,6 +11,8 @@
 #include "AddonCallback.h"
 #include "AddonString.h"
 
+#include <memory>
+
 namespace XBMCAddon
 {
   namespace xbmc
@@ -67,8 +69,13 @@ namespace XBMCAddon
       inline void OnNotification(const String& sender, const String& method, const String& data)
       {
         XBMC_TRACE;
+        /*
         invokeCallback(new CallbackFunction<Monitor, const String, const String, const String>(
             this, &Monitor::onNotification, sender, method, data));
+        */
+        std::shared_ptr<Callback> ptrCB(new CallbackFunction<Monitor, const String, const String, const String>(
+            this, &Monitor::onNotification, sender, method, data));
+        invokeCallback(std::move(ptrCB));
       }
 
       inline const String& GetId() { return Id; }
