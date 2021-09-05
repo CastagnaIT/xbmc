@@ -143,6 +143,8 @@ public:
   static bool ucs2ToUTF8(const std::u16string& ucs2StringSrc, std::string& utf8StringDst);
 
   static bool utf8logicalToVisualBiDi(const std::string& utf8StringSrc, std::string& utf8StringDst, bool failOnBadString = false);
+  
+  static bool utf8IsRTLBidiDirection(const std::string& utf8StringSrc);
 
   static bool utf32ToStringCharset(const std::u32string& utf32StringSrc, std::string& stringDst);
 

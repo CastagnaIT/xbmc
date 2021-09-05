@@ -98,6 +98,7 @@ public:
   * \return Return the Event ID, otherwise ASS_NO_ID if fails
   */
   int AddEvent(const char* text, double startTime, double stopTime);
+  int AddEvent(const char* text, double startTime, double stopTime, KODI::SUBTITLES::subtitleOpts* opts);
 
   /*!
   * \brief Append text to the specified event

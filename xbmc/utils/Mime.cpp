@@ -450,6 +450,7 @@ const std::map<std::string, std::string> CMime::m_mimetypes =
       {"vsd",       "application/x-visio"},
       {"vst",       "application/x-visio"},
       {"vsw",       "application/x-visio"},
+      {"vtt",       "text/vtt"},
       {"w60",       "application/wordperfect6.0"},
       {"w61",       "application/wordperfect6.1"},
       {"w6w",       "application/msword"},

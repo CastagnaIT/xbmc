@@ -14,6 +14,7 @@
 #include "DVDSubtitleParserSami.h"
 #include "DVDSubtitleParserSubrip.h"
 #include "DVDSubtitleParserVplayer.h"
+#include "DVDSubtitleParserWebVTT.h"
 #include "DVDSubtitleStream.h"
 #include "utils/StringUtils.h"
 
@@ -63,6 +64,10 @@ CDVDSubtitleParser* CDVDFactorySubtitle::CreateParser(std::string& strFile)
       else if (strstr (line, "<SAMI>"))
       {
         return new CDVDSubtitleParserSami(std::move(pStream), strFile.c_str());
+      }
+      else if (strstr (line, "WEBVTT"))
+      {
+        return new CDVDSubtitleParserWebVTT(std::move(pStream), strFile.c_str());
       }
     }
     else

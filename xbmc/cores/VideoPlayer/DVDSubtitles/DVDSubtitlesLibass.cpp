@@ -341,7 +341,7 @@ void CDVDSubtitlesLibass::ApplyStyle(subtitlesStyle subStyle, subtitleRenderOpts
       if (opts.usePosition)
         style->MarginV = 0;
       else
-        style->MarginV = 20 * scale;
+        style->MarginV = SUBTITLE_MARGIN_VERTICAL * scale;
     }
 
     // Set the alignment
@@ -429,6 +429,11 @@ int CDVDSubtitlesLibass::GetNrOfEvents() const
 
 int CDVDSubtitlesLibass::AddEvent(const char* text, double startTime, double stopTime)
 {
+  return AddEvent(text, startTime, stopTime, nullptr);
+}
+
+int CDVDSubtitlesLibass::AddEvent(const char* text, double startTime, double stopTime, subtitleOpts* opts)
+{
   if (text == NULL || text[0] == '\0')
   {
     CLog::Log(LOGDEBUG,
@@ -453,6 +458,12 @@ int CDVDSubtitlesLibass::AddEvent(const char* text, double startTime, double sto
     event->Style = 1; // We set the style ID that will be created later
     event->ReadOrder = eventId;
     event->Text = strdup(text);
+    if (opts && opts->useMargins)
+    {
+      event->MarginL = opts->marginLeft;
+      event->MarginR = opts->marginRight;
+      event->MarginV = opts->marginVertical;
+    }
     return eventId;
   }
   else

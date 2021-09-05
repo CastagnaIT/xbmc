@@ -36,6 +36,7 @@ public:
   * \return Return the subtitle ID, otherwise NO_SUBTITLE_ID if fails
   */
   int AddSubtitle(const char* text, double startTime, double stopTime);
+  int AddSubtitle(const char* text, double startTime, double stopTime, KODI::SUBTITLES::subtitleOpts* opts);
 
   /*!
   * \brief Append text to the specified subtitle ID

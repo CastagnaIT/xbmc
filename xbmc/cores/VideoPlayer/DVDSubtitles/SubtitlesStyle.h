@@ -19,6 +19,7 @@ namespace SUBTITLES
 
 constexpr double SUBTITLE_VIEWPORT_HEIGHT = 1080.0;
 constexpr double SUBTITLE_VIEWPORT_WIDTH = 1920.0;
+constexpr int SUBTITLE_MARGIN_VERTICAL = 20.0;
 
 enum class FontAlignment
 {
@@ -79,6 +80,14 @@ const UTILS::Color colors[9] = {
 
 const UTILS::Color bgColors[5] = {UTILS::COLOR::BLACK, UTILS::COLOR::YELLOW, UTILS::COLOR::WHITE,
                                    UTILS::COLOR::LIGHTGREY, UTILS::COLOR::GREY};
+
+struct subtitleOpts
+{
+  bool useMargins = false;
+  int marginLeft;
+  int marginRight;
+  int marginVertical;
+};
 
 struct subtitleRenderOpts
 {

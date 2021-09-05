@@ -32,6 +32,14 @@ class ColorUtils
      */
     static UTILS::Color ConvertToARGB(const UTILS::Color rgba);
 
+    /*! \brief Convert given RGB int values to RGB color value
+     \param r The red value
+     \param g The green value
+     \param b The blue value
+     \return the color as RGB value
+     */
+    static UTILS::Color ConvertIntToRGB(int r, int g, int b);
+
     /*! \brief Convert given ARGB color to BGR color value
      \param color The original color
      \return the original color converted to BGR value
