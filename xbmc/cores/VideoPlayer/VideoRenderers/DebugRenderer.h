@@ -12,6 +12,7 @@
 #include "OverlayRenderer.h"
 #include "cores/VideoPlayer/DVDSubtitles/SubtitlesAdapter.h"
 
+#include <memory>
 #include <string>
 
 class CDebugRenderer
@@ -32,7 +33,10 @@ protected:
   public:
     CRenderer();
     void Render(int idx) override;
-    KODI::SUBTITLES::subtitlesStyle CreateSubtitlesStyle();
+    void CreateSubtitlesStyle();
+
+  private:
+    std::shared_ptr<struct KODI::SUBTITLES::subtitlesStyle> m_debugOverlayStyle;
   };
 
   std::string m_strDebug[6];

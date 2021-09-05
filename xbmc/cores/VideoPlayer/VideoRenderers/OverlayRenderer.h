@@ -15,6 +15,7 @@
 #include "utils/Observer.h"
 
 #include <map>
+#include <memory>
 #include <vector>
 
 class CDVDOverlay;
@@ -119,9 +120,9 @@ namespace OVERLAY {
     COverlay* ConvertLibass(CDVDOverlayLibass* o,
                             double pts,
                             bool updateStyle,
-                            KODI::SUBTITLES::subtitlesStyle subStyle);
+                            std::shared_ptr<struct KODI::SUBTITLES::subtitlesStyle> overlayStyle);
 
-    KODI::SUBTITLES::subtitlesStyle CreateSubtitlesStyle();
+    void CreateSubtitlesStyle();
 
     void Release(std::vector<SElement>& list);
     void ReleaseCache();
@@ -133,6 +134,8 @@ namespace OVERLAY {
     static unsigned int m_textureid;
     CRect m_rv, m_rs, m_rd;
     std::string m_stereomode;
-    bool m_forceUpdateAssStyle;
+
+    std::shared_ptr<struct KODI::SUBTITLES::subtitlesStyle> m_overlayStyle;
+    bool m_forceUpdateOverlayStyle;
   };
 }
