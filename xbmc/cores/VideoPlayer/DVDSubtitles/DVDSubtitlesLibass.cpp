@@ -366,9 +366,7 @@ void CDVDSubtitlesLibass::ApplyStyle(style subStyle, renderOpts opts)
       style->Blur = (10.00 / 100 * subStyle.blur);
 
       int marginLR = 20;
-      if (subStyle.alignment != FontAlignment::TOP_CENTER &&
-          subStyle.alignment != FontAlignment::MIDDLE_CENTER &&
-          subStyle.alignment != FontAlignment::SUB_CENTER)
+      if (opts.horizontalAlignment != HorizontalAlignment::DISABLED)
       {
         // If the subtitle text is aligned on the left or right
         // of the screen, we set an extra left/right margin
