@@ -25,4 +25,6 @@ public:
   ~CDVDOverlayText() override = default;
 
   CDVDOverlayText* Clone() override { return new CDVDOverlayText(*this); }
+
+  void EnableTextAlign(bool enable) override { m_enableTextAlign = enable; }
 };
