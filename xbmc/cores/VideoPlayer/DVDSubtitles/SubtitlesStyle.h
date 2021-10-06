@@ -94,9 +94,6 @@ struct style
 
 struct subtitleOpts
 {
-  std::string text;
-  double startTime;
-  double stopTime;
   bool useMargins = false;
   int marginLeft;
   int marginRight;
