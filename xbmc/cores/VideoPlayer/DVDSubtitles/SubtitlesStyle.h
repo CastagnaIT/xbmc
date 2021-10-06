@@ -90,6 +90,17 @@ struct style
   int blur = 0; // In %
 };
 
+struct subtitleOpts
+{
+  std::string text;
+  double startTime;
+  double stopTime;
+  bool useMargins = false;
+  int marginLeft;
+  int marginRight;
+  int marginVertical;
+};
+
 struct renderOpts
 {
   int frameWidth;

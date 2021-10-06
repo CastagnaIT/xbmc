@@ -95,6 +95,11 @@ Color UTILS::ConvertToBGR(const Color argb)
          (argb & 0x000000FF) << 16; //BB____
 }
 
+Color UTILS::ConvertIntToRGB(int r, int g, int b)
+{
+  return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+}
+
 Color UTILS::ConvertHexToColor(const std::string& hexColor)
 {
   Color value = 0;

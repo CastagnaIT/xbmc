@@ -271,6 +271,7 @@ public:
                                   FriBidiCharType base = FRIBIDI_TYPE_LTR,
                                   const bool failOnBadString = false,
                                   int* visualToLogicalMap = nullptr);
+  static bool isBidiDirectionRTL(const std::string& stringSrc);
 
   template<class INPUT,class OUTPUT>
   static bool stdConvert(StdConversionType convertType, const INPUT& strSource, OUTPUT& strDest, bool failOnInvalidChar = false);
@@ -529,6 +530,21 @@ bool CCharsetConverter::CInnerConverter::logicalToVisualBiDi(
   } while (lineStart < srcLen);
 
   return !stringDst.empty();
+}
+
+bool CCharsetConverter::CInnerConverter::isBidiDirectionRTL(const std::string& stringSrc)
+{
+  std::u32string converted;
+  if (!CInnerConverter::stdConvert(Utf8ToUtf32, stringSrc, converted, true))
+    return false;
+
+  int lineLen = (int)stringSrc.size();
+  FriBidiCharType* charTypes = new FriBidiCharType[lineLen];
+  fribidi_get_bidi_types(reinterpret_cast<const FriBidiChar*>(converted.c_str()),
+                         (FriBidiStrIndex)lineLen, charTypes);
+  FriBidiCharType charType = fribidi_get_par_direction(charTypes, (FriBidiStrIndex)lineLen);
+  delete[] charTypes;
+  return charType == FRIBIDI_PAR_RTL;
 }
 
 static struct SCharsetMapping
@@ -858,6 +874,11 @@ bool CCharsetConverter::utf8logicalToVisualBiDi(const std::string& utf8StringSrc
     return false;
 
   return CInnerConverter::stdConvert(Utf32ToUtf8, utf32flipped, utf8StringDst, failOnBadString);
+}
+
+bool CCharsetConverter::utf8IsRTLBidiDirection(const std::string& utf8StringSrc)
+{
+  return CInnerConverter::isBidiDirectionRTL(utf8StringSrc);
 }
 
 void CCharsetConverter::SettingOptionsCharsetsFiller(const SettingConstPtr& setting,
