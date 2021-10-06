@@ -3823,7 +3823,7 @@ void CVideoPlayer::FlushBuffers(double pts, bool accurate, bool sync)
   m_VideoPlayerRadioRDS->Flush();
 
   // clear subtitle and menu overlays
-  m_overlayContainer.Clear();
+  m_overlayContainer.Clear(true);
 
   if (m_playSpeed == DVD_PLAYSPEED_NORMAL ||
       m_playSpeed == DVD_PLAYSPEED_PAUSE)

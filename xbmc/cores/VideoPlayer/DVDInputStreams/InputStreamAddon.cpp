@@ -390,6 +390,7 @@ KODI_HANDLE CInputStreamAddon::cb_get_stream_transfer(KODI_HANDLE handle,
       stream->m_streamType != INPUTSTREAM_TYPE_RDS)
   {
     StringUtils::ToLower(codecName);
+    CLog::Log(LOGERROR, "{} - QUI codecName {}", __FUNCTION__, codecName);
     codec = avcodec_find_decoder_by_name(codecName.c_str());
     if (!codec)
       return nullptr;

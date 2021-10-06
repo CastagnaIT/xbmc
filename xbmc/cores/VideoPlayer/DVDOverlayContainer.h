@@ -39,7 +39,7 @@ public:
   VecOverlays* GetOverlays(); // get the first overlay in this fifo
   bool ContainsOverlayType(DVDOverlayType type);
 
-  void Clear(); // clear the fifo and delete all overlays
+  void Clear(bool preserveNonEndingOverlay = false); // clear the fifo and delete all overlays
   void CleanUp(double pts); // validates all overlays against current pts
   int GetSize();
 

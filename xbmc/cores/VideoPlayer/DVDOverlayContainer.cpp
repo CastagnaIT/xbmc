@@ -9,6 +9,7 @@
 #include "DVDOverlayContainer.h"
 
 #include "DVDInputStreams/DVDInputStreamNavigator.h"
+#include "cores/VideoPlayer/Interface/TimingConstants.h"
 #include "threads/SingleLock.h"
 
 CDVDOverlayContainer::CDVDOverlayContainer() = default;
@@ -109,9 +110,19 @@ void CDVDOverlayContainer::CleanUp(double pts)
 
 }
 
-void CDVDOverlayContainer::Clear()
+void CDVDOverlayContainer::Clear(bool preserveNonEndingOverlay /* = false */)
 {
   CSingleLock lock(*this);
+  // TODO: how do better? this is due to seek that clear the overlay
+  // see VideoPlayerSubtitle.cpp line 110: m_pOverlayContainer->Clear();
+  if (preserveNonEndingOverlay && m_overlays.size() == 1 &&
+      (m_overlays[0]->IsOverlayType(DVDOVERLAY_TYPE_TEXT) ||
+       m_overlays[0]->IsOverlayType(DVDOVERLAY_TYPE_SSA)) &&
+      m_overlays[0]->iPTSStopTime == DVD_NOPTS_VALUE)
+  {
+      return;
+  }
+
   for (auto &overlay : m_overlays)
   {
     overlay->Release();
