@@ -615,7 +615,7 @@ void WebVTTHandler::CalculateTextPosition(std::string& subtitleText, subtitleDat
   // Compute cue box "align" value
   if (settings->align == WEBVTT_ALIGN_START)
   {
-    // Clean text from tags or bidi check not works
+    // Clean text from tags or bidi check doesn't work
     std::string textNoTags = subtitleText;
     HTML::CHTMLUtil::RemoveTags(textNoTags);
     if (CCharsetConverter::utf8IsRTLBidiDirection(textNoTags))
@@ -625,7 +625,7 @@ void WebVTTHandler::CalculateTextPosition(std::string& subtitleText, subtitleDat
   }
   else if (settings->align == WEBVTT_ALIGN_END)
   {
-    // Clean text from tags or bidi check not works
+    // Clean text from tags or bidi check doesn't work
     std::string textNoTags = subtitleText;
     HTML::CHTMLUtil::RemoveTags(textNoTags);
     if (CCharsetConverter::utf8IsRTLBidiDirection(textNoTags))
@@ -660,7 +660,7 @@ void WebVTTHandler::CalculateTextPosition(std::string& subtitleText, subtitleDat
   else if (settings->positionAlign == WEBVTT_ALIGN_START) // Undocumented
   {
     // Is not clear if bidi check here is needed
-    // Clean text from tags or bidi check not works
+    // Clean text from tags or bidi check doesn't work
     std::string textNoTags = subtitleText;
     HTML::CHTMLUtil::RemoveTags(textNoTags);
     if (CCharsetConverter::utf8IsRTLBidiDirection(textNoTags))
@@ -671,7 +671,7 @@ void WebVTTHandler::CalculateTextPosition(std::string& subtitleText, subtitleDat
   else if (settings->positionAlign == WEBVTT_ALIGN_END) // Undocumented
   {
     // Is not clear if bidi check here is needed
-    // Clean text from tags or bidi check not works
+    // Clean text from tags or bidi check doesn't work
     std::string textNoTags = subtitleText;
     HTML::CHTMLUtil::RemoveTags(textNoTags);
     if (CCharsetConverter::utf8IsRTLBidiDirection(textNoTags))
