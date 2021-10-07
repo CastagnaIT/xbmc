@@ -588,8 +588,8 @@ void WebVTTHandler::GetCueSettings(std::string& cueSettings, subtitleData& subDa
     settings.align = WEBVTT_ALIGN_START;
   else if (cueAlign == "end")
     settings.align = WEBVTT_ALIGN_END;
-  else // When there are no cue settings, fallback to "center"
-    settings.align = cueSettings.empty() ? WEBVTT_ALIGN_CENTER : WEBVTT_ALIGN_START;
+  else
+    settings.align = WEBVTT_ALIGN_CENTER;
 
   subData.cueSettings = settings;
 }
