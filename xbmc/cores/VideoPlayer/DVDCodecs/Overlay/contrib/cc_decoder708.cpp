@@ -342,8 +342,8 @@ int handle_708_C2 (cc708_service_decoder *decoder, unsigned char *data, int data
 
 int handle_708_C3 (cc708_service_decoder *decoder, unsigned char *data, int data_length)
 {
-  if (data[0]<0x80 || data[0]>0x9F)
-    ;//ccx_common_logging.fatal_ftn (CCX_COMMON_EXIT_BUG_BUG, "Entry in handle_708_C3 with an out of range value.");
+  //if (data[0] < 0x80 || data[0] > 0x9F)
+  //  ccx_common_logging.fatal_ftn (CCX_COMMON_EXIT_BUG_BUG, "Entry in handle_708_C3 with an out of range value.");
   if (data[0]<=0x87) // 80-87...
     return 5; // ... Five-byte control bytes (4 additional bytes)
   else if (data[0]<=0x8F) // 88-8F ...
