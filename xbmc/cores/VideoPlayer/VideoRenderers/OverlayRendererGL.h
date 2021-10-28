@@ -39,7 +39,7 @@ namespace OVERLAY {
   class COverlayGlyphGL : public COverlay
   {
   public:
-   COverlayGlyphGL(ASS_Image* images, int width, int height);
+   COverlayGlyphGL(ASS_Image* images, float width, float height);
 
    ~COverlayGlyphGL() override;
 
