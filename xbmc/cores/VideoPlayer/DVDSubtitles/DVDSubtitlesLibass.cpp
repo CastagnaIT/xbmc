@@ -240,7 +240,8 @@ ASS_Image* CDVDSubtitlesLibass::RenderImage(double pts,
   float sar = opts.sourceWidth / opts.sourceHeight;
   float dar = opts.videoWidth / opts.videoHeight;
 
-  ass_set_frame_size(m_renderer, opts.frameWidth, opts.frameHeight);
+  ass_set_frame_size(m_renderer, static_cast<int>(opts.frameWidth),
+                     static_cast<int>(opts.frameHeight));
 
   if (m_drawWithinBlackBars)
   {
@@ -572,7 +573,7 @@ void CDVDSubtitlesLibass::AppendTextToEvent(int eventId, const char* text)
   ASS_Event* assEvent = (assEvents + eventId);
   if (assEvent)
   {
-    int buffSize = strlen(assEvent->Text) + strlen(text) + 1;
+    size_t buffSize = strlen(assEvent->Text) + strlen(text) + 1;
     char* appendedText = new char[buffSize];
     strcpy(appendedText, assEvent->Text);
     strcat(appendedText, text);
