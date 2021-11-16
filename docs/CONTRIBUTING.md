@@ -22,6 +22,18 @@ Reviews are a great way to get familiar with the codebase. If you would like to 
 * **Be descriptive, but concise**. The *pull request* and commits should have a useful title and follow the `[component(s)] Short description...` format. No, `[README.md] Update` is **not** descriptive enough. The *pull request* description should only contain information relevant to the change.
 * **Be patient, be kind, rewind**. We're all volunteers with busy lives but usually very responsive in cataloging *pull requests* and pinging the relevant maintainer(s). Sometimes though, things go unnoticed for longer than usual. Probably due to beer deprivation... or lack thereof. Feel free to nudge us if we forget.
 
+## Pull request - Merge guidelines
+* **Jenkins builds green light on all platforms**. Make sure the Jenkins builds have a green light for each platform, anyway some compile warnings could be reported in builds, in some cases it is opportune to analyze them to not introduce new warnings.
+* **Wait for approval**. Keyword be patient, infinitely patient, one approval is mandatory to be allowed to merge, 
+it is normal to have to wait for others to review and approve your work, you can think in terms of weeks not days, the time and number of approvals can depend on factors like:
+The number of changes applied, a huge PR could take more time to be reviewed, if appropriate you can split it in more PR's; Which Kodi areas it covers,
+if your PR cover more Kodi areas could mean that more than one approval is needed, often Kodi parts are tangled and what looks perfect to you may have unwanted side effects, having others approve your work is always worthwhile.
+In some cases you may be asked to make more changes to improve your PR, which may result in differences of opinion we look to discuss and resolve via consensus then
+if you feel demotivated or furious, be patient no one here wants you to feel like that, we do all have good intent, but we just have an odd way of expressing it.
+If your PR has been stalled for a long time you can let us know, we have a lot of work and the team is not very big we try to give our best, but we also have a real life.
+* **Provide a test build**. In some cases, a test build is a powerful way to speed up the review process, the team includes members that can't build Kodi but will test things. A test build can also be used to allow users to test changes themselves and provide more feedback. 
+You can request a test build from your PR which will be automatically built and uploaded to our mirrors automatically by Jenkins.
+
 ## Coding guidelines
 * **Follow our [code guidelines](CODE_GUIDELINES.md)**. New code should follow those guidelines even if existing code doesn't. If you're up to it, improve existing code and submit it in separate commits.
 * **Document the code**. You know you're brilliant, but maybe you'd like to understand what you did a year from now. Or, code God forbid, help others... Nope, `// Magic. Do not touch!` does not count as documentation.
