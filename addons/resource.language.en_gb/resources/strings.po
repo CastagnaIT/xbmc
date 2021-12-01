@@ -1274,33 +1274,7 @@ msgctxt "#271"
 msgid "Top 100"
 msgstr ""
 
-msgctxt "#272"
-msgid "Top-Left overscan compensation"
-msgstr ""
-
-msgctxt "#273"
-msgid "Bottom-Right overscan compensation"
-msgstr ""
-
-msgctxt "#274"
-msgid "Subtitle positioning"
-msgstr ""
-
-msgctxt "#275"
-msgid "Pixel ratio adjustment"
-msgstr ""
-
-msgctxt "#276"
-msgid "Adjust the arrow to change the amount of overscan"
-msgstr ""
-
-msgctxt "#277"
-msgid "Adjust the bar to change the subtitles position"
-msgstr ""
-
-msgctxt "#278"
-msgid "Adjust the rectangle so it is perfectly square"
-msgstr ""
+#empty strings from id 272 to 278
 
 msgctxt "#279"
 msgid "Unable to load settings"
@@ -6585,6 +6559,7 @@ msgid "Video encoder:"
 msgstr ""
 
 #: xbmc/windows/GUIWindowSystemInfo.cpp
+#: xbmc/settings/windows/GUIWindowSettingsScreenCalibration.cpp
 msgctxt "#13287"
 msgid "Screen resolution:"
 msgstr ""
@@ -13023,17 +12998,13 @@ msgctxt "#20324"
 msgid "Play part..."
 msgstr ""
 
-msgctxt "#20325"
-msgid "Calibration reset"
-msgstr ""
+#empty strings id 20325
 
 msgctxt "#20326"
-msgid "This will reset the calibration values for {0:s}"
+msgid "Do you want reset the calibration to their defaults for \"{0:s}\" resolution?"
 msgstr ""
 
-msgctxt "#20327"
-msgid "to its default values."
-msgstr ""
+#empty strings id 20327
 
 msgctxt "#20328"
 msgid "Browse for destination"

@@ -807,3 +807,47 @@ msgstr ""
 msgctxt "#31169"
 msgid "Artwork related settings."
 msgstr ""
+
+#empty strings from id 31170 to 31744
+
+#. Window screen calibration: calibration from the rectangle box
+#: xml/SettingsScreenCalibration.xml
+msgctxt "#31745"
+msgid "[B]Pixel ratio adjustment[/B][CR]Adjust the rectangle so it is perfectly square"
+msgstr ""
+
+#. Window screen calibration: calibration from the top-left angle
+#: xml/SettingsScreenCalibration.xml
+msgctxt "#31746"
+msgid "[B]Top-Left overscan compensation[/B][CR]Adjust the arrow to change the amount of overscan"
+msgstr ""
+
+#. Window screen calibration: calibration from the bottom-right angle
+#: xml/SettingsScreenCalibration.xml
+msgctxt "#31747"
+msgid "[B]Bottom-Right overscan compensation[/B][CR]Adjust the arrow to change the amount of overscan"
+msgstr ""
+
+#. Window screen calibration: calibration from the subtitle bar
+#: xml/SettingsScreenCalibration.xml
+msgctxt "#31748"
+msgid "[B]Subtitle positioning[/B][CR]Adjust the bar to change the subtitles position"
+msgstr ""
+
+#. Window screen calibration title
+#: xml/SettingsScreenCalibration.xml
+msgctxt "#31749"
+msgid "Video calibration"
+msgstr ""
+
+#. Window screen calibration: the current calibration value
+#: xml/SettingsScreenCalibration.xml
+msgctxt "#31750"
+msgid "Current value: {}"
+msgstr ""
+
+#. Window screen calibration: to reset calibration values
+#: xml/SettingsScreenCalibration.xml
+msgctxt "#31751"
+msgid "Calibration reset"
+msgstr ""

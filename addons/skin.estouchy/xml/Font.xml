@@ -33,9 +33,19 @@
 			<size>25</size>
 		</font>
 		<font>
+			<name>font27</name>
+			<filename>NotoSans-Regular.ttf</filename>
+			<size>27</size>
+		</font>
+		<font>
 			<name>font30</name>
 			<filename>NotoSans-Regular.ttf</filename>
 			<size>30</size>
+		</font>
+		<font>
+			<name>font35</name>
+			<filename>NotoSans-Regular.ttf</filename>
+			<size>35</size>
 		</font>
 		<font>
 			<name>font40</name>
@@ -89,6 +99,12 @@
 			<name>font35_title</name>
 			<filename>NotoSans-Regular.ttf</filename>
 			<size>35</size>
+			<style>bold</style>
+		</font>
+		<font>
+			<name>font38_title</name>
+			<filename>NotoSans-Regular.ttf</filename>
+			<size>38</size>
 			<style>bold</style>
 		</font>
 		<font>
@@ -143,9 +159,19 @@
 			<size>25</size>
 		</font>
 		<font>
+			<name>font27</name>
+			<filename>arial.ttf</filename>
+			<size>27</size>
+		</font>
+		<font>
 			<name>font30</name>
 			<filename>Arial.ttf</filename>
 			<size>30</size>
+		</font>
+		<font>
+			<name>font35</name>
+			<filename>Arial.ttf</filename>
+			<size>35</size>
 		</font>
 		<font>
 			<name>font40</name>
@@ -199,6 +225,12 @@
 			<name>font35_title</name>
 			<filename>Arial.ttf</filename>
 			<size>35</size>
+			<style>bold</style>
+		</font>
+		<font>
+			<name>font38_title</name>
+			<filename>arial.ttf</filename>
+			<size>38</size>
 			<style>bold</style>
 		</font>
 		<font>
