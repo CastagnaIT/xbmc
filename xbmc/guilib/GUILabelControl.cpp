@@ -69,6 +69,14 @@ void CGUILabelControl::UpdateInfo(const CGUIListItem *item)
   std::string label(m_infoLabel.GetLabel(m_parentID));
 
   bool changed = false;
+
+  // If the control is invalidated we recalculate the text extent size
+  // this is needed when the gui font size/aspect has been rescaled
+  // (e.g. screen calibration window) in order to get the updated size
+  // of the text for the rendering
+  if (m_bInvalidated)
+    m_label.RefreshLayoutSize();
+
   if (m_startHighlight < m_endHighlight || m_startSelection < m_endSelection || m_bShowCursor)
   {
     std::wstring utf16;
@@ -105,7 +113,6 @@ void CGUILabelControl::UpdateInfo(const CGUIListItem *item)
   {
     if (m_bHasPath)
       label = ShortenPath(label);
-
     changed |= m_label.SetMaxRect(m_posX, m_posY, GetMaxWidth(), m_height);
     changed |= m_label.SetText(label);
   }

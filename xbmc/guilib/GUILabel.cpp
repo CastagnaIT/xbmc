@@ -143,6 +143,11 @@ bool CGUILabel::UpdateColors()
   return m_label.UpdateColors();
 }
 
+void CGUILabel::RefreshLayoutSize()
+{
+  m_textLayout.CalcTextExtent();
+}
+
 bool CGUILabel::SetMaxRect(float x, float y, float w, float h)
 {
   CRect oldRect = m_maxRect;

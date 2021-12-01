@@ -215,6 +215,10 @@ public:
    */
   static bool CheckAndCorrectOverlap(CGUILabel &label1, CGUILabel &label2);
 
+  /*! \brief Recalculate the text layout size
+   */
+  void RefreshLayoutSize();
+
 protected:
   UTILS::COLOR::Color GetColor() const;
 

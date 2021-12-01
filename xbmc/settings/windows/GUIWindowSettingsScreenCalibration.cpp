@@ -518,6 +518,9 @@ void CGUIWindowSettingsScreenCalibration::FrameMove()
     SET_CONTROL_LABEL(CONTROL_LABEL_VALUE, "");
     SET_CONTROL_LABEL(CONTROL_LABEL_RES, "");
   }
+  // Send GUI_MSG_WINDOW_RESIZE to rescale font size/aspect for label controls
+  CServiceBroker::GetGUI()->GetWindowManager().SendMessage(
+      GUI_MSG_NOTIFY_ALL, WINDOW_SCREEN_CALIBRATION, 0, GUI_MSG_WINDOW_RESIZE);
   CGUIWindow::FrameMove();
 }
 

@@ -132,6 +132,8 @@ public:
                        uint32_t align);
   static void Filter(std::string &text);
 
+  void CalcTextExtent();
+
 protected:
   void LineBreakText(const vecText &text, std::vector<CGUIString> &lines);
   void WrapText(const vecText &text, float maxWidth);
@@ -139,7 +141,6 @@ protected:
   static std::wstring BidiFlip(const std::wstring& text,
                                bool forceLTRReadingOrder,
                                int* visualToLogicalMap = nullptr);
-  void CalcTextExtent();
   void UpdateCommon(const std::wstring &text, float maxWidth, bool forceLTRReadingOrder);
 
   /*! \brief Returns the text, utf8 encoded
