@@ -14,6 +14,8 @@
 #include "GUIFont.h"
 #include "utils/CharsetConverter.h"
 #include "utils/StringUtils.h"
+#include "ServiceBroker.h"
+#include "GUIWindowManager.h"
 
 CGUIString::CGUIString(iString start, iString end, bool carriageReturn)
 {
@@ -39,6 +41,12 @@ CGUITextLayout::CGUITextLayout(CGUIFont *font, bool wrap, float fHeight, CGUIFon
   m_textWidth = 0;
   m_textHeight = 0;
   m_lastUpdateW = false;
+  CServiceBroker::GetGUI()->GetWindowManager().AddMsgTarget(this);
+}
+
+CGUITextLayout::~CGUITextLayout()
+{
+  CServiceBroker::GetGUI()->GetWindowManager().RemoveMsgTarget(this);
 }
 
 void CGUITextLayout::SetWrap(bool bWrap)
@@ -658,6 +666,19 @@ void CGUITextLayout::CalcTextExtent()
       m_textWidth = w;
   }
   m_textHeight = m_font->GetTextHeight(m_lines.size());
+}
+
+bool CGUITextLayout::OnMessage(CGUIMessage& message)
+{
+  if (message.GetMessage() != GUI_MSG_NOTIFY_ALL)
+    return false;
+
+  if (message.GetParam1() == GUI_MSG_GUI_FONT_RELOADED)
+  { // we need to recalculate the text size
+    CalcTextExtent();
+    return true;
+  }
+  return false;
 }
 
 unsigned int CGUITextLayout::GetTextLength() const

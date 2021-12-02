@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "IMsgTargetCallback.h"
 #include "utils/ColorUtils.h"
 
 #include <stdint.h>
@@ -49,10 +50,14 @@ public:
   bool m_carriageReturn; // true if we have a carriage return here
 };
 
-class CGUITextLayout
+class CGUITextLayout : public IMsgTargetCallback
 {
 public:
   CGUITextLayout(CGUIFont *font, bool wrap, float fHeight=0.0f, CGUIFont *borderFont = NULL);  // this may need changing - we may just use this class to replace CLabelInfo completely
+  ~CGUITextLayout();
+
+  // IMsgTargetCallback interface
+  bool OnMessage(CGUIMessage &message) override;
 
   bool UpdateScrollinfo(CScrollInfo &scrollInfo);
 

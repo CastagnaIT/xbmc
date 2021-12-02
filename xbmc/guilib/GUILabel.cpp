@@ -145,7 +145,7 @@ bool CGUILabel::UpdateColors()
 
 void CGUILabel::RefreshLayoutSize()
 {
-  m_textLayout.CalcTextExtent();
+  //m_textLayout.CalcTextExtent();
 }
 
 bool CGUILabel::SetMaxRect(float x, float y, float w, float h)

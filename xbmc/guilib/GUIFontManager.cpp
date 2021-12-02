@@ -214,6 +214,8 @@ bool GUIFontManager::OnMessage(CGUIMessage &message)
     {
       ReloadTTFFonts();
       // no need to send a resize message, as this message will do the rounds
+      CServiceBroker::GetGUI()->GetWindowManager().SendMessage(GUI_MSG_NOTIFY_ALL, 0, 0,
+                                                               GUI_MSG_GUI_FONT_RELOADED);
       return true;
     }
   }

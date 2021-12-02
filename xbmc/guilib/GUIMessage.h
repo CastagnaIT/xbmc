@@ -159,6 +159,11 @@
  */
 #define GUI_MSG_SUBTITLE_DOWNLOADED  52
 
+/*!
+ * \brief Called when GUI fonts has been reloaded
+ *        (e.g. window scaling/resolution change)
+ */
+#define GUI_MSG_GUI_FONT_RELOADED  53
 
 #define GUI_MSG_USER         1000
 
