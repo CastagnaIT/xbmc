@@ -14,7 +14,7 @@
 #include "cores/VideoPlayer/DVDSubtitles/SubtitlesStyle.h"
 #include "cores/VideoPlayer/Interface/DemuxPacket.h"
 #include "utils/CharArrayParser.h"
-
+#include "utils/log.h"
 #include <cstring>
 #include <memory>
 
@@ -64,7 +64,7 @@ OverlayMessage COverlayCodecWebVTT::Decode(DemuxPacket* pPacket)
 
   const char* data = reinterpret_cast<const char*>(pPacket->pData);
   std::vector<subtitleData> subtitleList;
-
+  CLog::Log(LOGDEBUG, "{} - PACKET RECEIVED", __FUNCTION__);
   if (m_isISOFormat)
   {
     double prevSubStopTime = 0.0;
