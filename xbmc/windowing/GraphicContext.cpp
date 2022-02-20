@@ -463,6 +463,8 @@ void CGraphicContext::SetVideoResolutionInternal(RESOLUTION res, bool forceUpdat
     CGUIComponent *gui = CServiceBroker::GetGUI();
     if (gui)
       gui->GetWindowManager().SendMessage(GUI_MSG_NOTIFY_ALL, 0, 0, GUI_MSG_WINDOW_RESIZE);
+    Observable::SetChanged();
+    Observable::NotifyObservers(ObservableMessageResolutionChanged);
   }
   else
   {
@@ -519,6 +521,8 @@ void CGraphicContext::ApplyVideoResolution(RESOLUTION res)
   RESOLUTION_INFO info_org  = CDisplaySettings::GetInstance().GetResolutionInfo(res);
   CServiceBroker::GetInputManager().SetMouseResolution(info_org.iWidth, info_org.iHeight, 1, 1);
   CServiceBroker::GetGUI()->GetWindowManager().SendMessage(GUI_MSG_NOTIFY_ALL, 0, 0, GUI_MSG_WINDOW_RESIZE);
+  Observable::SetChanged();
+  Observable::NotifyObservers(ObservableMessageResolutionChanged);
 }
 
 void CGraphicContext::UpdateInternalStateWithResolution(RESOLUTION res)
@@ -555,6 +559,9 @@ void CGraphicContext::ResetOverscan(RESOLUTION_INFO &res)
   res.Overscan.top = 0;
   res.Overscan.right = res.iWidth;
   res.Overscan.bottom = res.iHeight;
+
+  Observable::SetChanged();
+  Observable::NotifyObservers(ObservableMessageResolutionOverscanChanged);
 }
 
 void CGraphicContext::ResetOverscan(RESOLUTION res, OVERSCAN &overscan)
@@ -565,6 +572,9 @@ void CGraphicContext::ResetOverscan(RESOLUTION res, OVERSCAN &overscan)
   RESOLUTION_INFO info = GetResInfo(res);
   overscan.right  = info.iWidth;
   overscan.bottom = info.iHeight;
+
+  Observable::SetChanged();
+  Observable::NotifyObservers(ObservableMessageResolutionOverscanChanged);
 }
 
 void CGraphicContext::ResetScreenParameters(RESOLUTION res)
@@ -635,6 +645,11 @@ const RESOLUTION_INFO CGraphicContext::GetResInfo(RESOLUTION res) const
 void CGraphicContext::SetResInfo(RESOLUTION res, const RESOLUTION_INFO& info)
 {
   RESOLUTION_INFO& curr = CDisplaySettings::GetInstance().GetResolutionInfo(res);
+  if (curr.Overscan != info.Overscan)
+  {
+    Observable::SetChanged();
+    Observable::NotifyObservers(ObservableMessageResolutionOverscanChanged);
+  }
   curr.Overscan   = info.Overscan;
   curr.iSubtitles = info.iSubtitles;
   curr.fPixelRatio = info.fPixelRatio;

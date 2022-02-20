@@ -126,7 +126,7 @@ void CDebugRenderer::CRenderer::Render(int idx)
   {
     if (it->overlay_dvd)
     {
-      CDVDOverlayLibass* ovAss = static_cast<CDVDOverlayLibass*>(it->overlay_dvd);
+      CDVDOverlayLibass* ovAss = dynamic_cast<CDVDOverlayLibass*>(it->overlay_dvd);
       if (!ovAss || !ovAss->GetLibassHandler())
         continue;
 

@@ -1309,6 +1309,7 @@ msgstr ""
 
 #. Window screen calibration: calibration of subtitle bar
 #: xbmc/settings/windows/GUIWindowSettingsScreenCalibration.cpp
+#: xbmc/video/PlayerController.cpp
 msgctxt "#277"
 msgid "Subtitle positioning"
 msgstr ""

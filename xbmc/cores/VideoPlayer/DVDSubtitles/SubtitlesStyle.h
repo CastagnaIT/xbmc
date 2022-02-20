@@ -107,7 +107,7 @@ struct renderOpts
   float videoHeight;
   float sourceWidth;
   float sourceHeight;
-  bool usePosition = false;
+  bool disableVerticalMargin = false;
   // position: vertical line position of subtitles in percent. 0 = no change (bottom), 100 = on top.
   double position = 0;
   HorizontalAlignment horizontalAlignment = HorizontalAlignment::DISABLED;

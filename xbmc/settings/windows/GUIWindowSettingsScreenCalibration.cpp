@@ -344,8 +344,8 @@ void CGUIWindowSettingsScreenCalibration::ResetControls()
         static_cast<float>(CONTROL_SUBTITLES_SPACE) / DEFAULT_GUI_HEIGHT * info.iHeight;
     m_subtitlesHalfSpace = static_cast<int>(scaledSpace / 2);
     int barHeight = static_cast<int>(scaledHeight - scaledSpace);
-    pControl->SetLimits(0, m_subtitlesHalfSpace + barHeight, 0,
-                        info.iHeight + m_subtitlesHalfSpace);
+    pControl->SetLimits(0, m_subtitlesHalfSpace + barHeight + info.Overscan.top, 0,
+                        info.Overscan.bottom + m_subtitlesHalfSpace);
     pControl->SetHeight(scaledHeight);
     pControl->SetWidth(size.second / DEFAULT_GUI_WIDTH * info.iWidth);
     pControl->SetPosition((info.iWidth - pControl->GetWidth()) * 0.5f,
@@ -444,15 +444,6 @@ bool CGUIWindowSettingsScreenCalibration::UpdateFromControl(int iControl)
                                                  g_localizeStrings.Get(276));
           labelValue = StringUtils::Format("{}, {}", iXOff1, iYOff1);
           labelValue = StringUtils::Format(g_localizeStrings.Get(20327), labelValue);
-          // Keep the subtitle bar within the overscan boundary
-          pControl = dynamic_cast<CGUIMoverControl*>(GetControl(CONTROL_SUBTITLES));
-          if (info.Overscan.bottom < info.iSubtitles)
-          {
-            info.iSubtitles = info.Overscan.bottom;
-            pControl->SetPosition((info.iWidth - pControl->GetWidth()) * 0.5f,
-                                  info.iSubtitles - pControl->GetHeight() + m_subtitlesHalfSpace);
-            pControl->SetLocation(0, info.iSubtitles + m_subtitlesHalfSpace, false);
-          }
           // Update reset control position
           pControl = dynamic_cast<CGUIMoverControl*>(GetControl(CONTROL_RESET));
           if (pControl)
@@ -487,8 +478,6 @@ bool CGUIWindowSettingsScreenCalibration::UpdateFromControl(int iControl)
   SET_CONTROL_LABEL(CONTROL_LABEL_DESCRIPTION, labelDescription);
   SET_CONTROL_LABEL(CONTROL_LABEL_VALUE, labelValue);
 
-  CServiceBroker::GetWinSystem()->GetGfxContext().SetResInfo(m_Res[m_iCurRes], info);
-
   // Set resolution info text
   std::string resInfo;
   if (CServiceBroker::GetWinSystem()->IsFullScreen())
@@ -505,11 +494,34 @@ bool CGUIWindowSettingsScreenCalibration::UpdateFromControl(int iControl)
   SET_CONTROL_LABEL(CONTROL_LABEL_RES, resInfo);
 
   // Detect overscan changes
-  bool overscanChanged = info.Overscan.bottom != infoPrev.Overscan.bottom ||
-                         info.Overscan.top != infoPrev.Overscan.top ||
-                         info.Overscan.left != infoPrev.Overscan.left ||
-                         info.Overscan.right != infoPrev.Overscan.right;
-  return overscanChanged;
+  bool isOverscanChanged = info.Overscan != infoPrev.Overscan;
+  if (isOverscanChanged)
+  {
+    // Adjust subtitle bar position due to overscan changes
+    CGUIMoverControl* pControl = dynamic_cast<CGUIMoverControl*>(GetControl(CONTROL_SUBTITLES));
+    // Keep the subtitle bar within the overscan boundary
+    if (info.Overscan.bottom < info.iSubtitles)
+    {
+      info.iSubtitles = info.Overscan.bottom;
+      pControl->SetPosition((info.iWidth - pControl->GetWidth()) * 0.5f,
+                            info.iSubtitles - pControl->GetHeight() + m_subtitlesHalfSpace);
+      pControl->SetLocation(0, info.iSubtitles + m_subtitlesHalfSpace, false);
+    }
+    // Recalculate limits based on overscan values
+    auto& size = m_controlsSize[CONTROL_SUBTITLES];
+    float scaledHeight = size.first / DEFAULT_GUI_HEIGHT * info.iHeight;
+    float scaledSpace =
+        static_cast<float>(CONTROL_SUBTITLES_SPACE) / DEFAULT_GUI_HEIGHT * info.iHeight;
+    m_subtitlesHalfSpace = static_cast<int>(scaledSpace / 2);
+    int barHeight = static_cast<int>(scaledHeight - scaledSpace);
+
+    pControl->SetLimits(0, m_subtitlesHalfSpace + barHeight + info.Overscan.top, 0,
+                        info.Overscan.bottom + m_subtitlesHalfSpace);
+  }
+
+  CServiceBroker::GetWinSystem()->GetGfxContext().SetResInfo(m_Res[m_iCurRes], info);
+
+  return isOverscanChanged;
 }
 
 void CGUIWindowSettingsScreenCalibration::FrameMove()

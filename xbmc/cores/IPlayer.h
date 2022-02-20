@@ -122,6 +122,18 @@ public:
   virtual bool GetSubtitleVisible() { return false; }
   virtual void SetSubtitleVisible(bool bVisible) {}
 
+  /*!
+   * \brief Set the subtitle shift position
+   * \param value The subtitle position in pixels
+   */
+  virtual void SetSubtitleShiftPos(double value) {}
+
+  /*!
+   * \brief Get the subtitle shift position
+   * \return The subtitle position in pixels
+   */
+  virtual double GetSubtitleShiftPos() { return 0; }
+
   /** \brief Adds the subtitle(s) provided by the given file to the available player streams
   *          and actives the first of the added stream(s). E.g., vob subs can contain multiple streams.
   *   \param[in] strSubPath The full path of the subtitle file.

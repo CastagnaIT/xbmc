@@ -686,6 +686,25 @@ void CApplicationPlayer::SetSubtitleVisible(bool bVisible)
   }
 }
 
+void CApplicationPlayer::SetSubtitleShiftPos(double value)
+{
+  std::shared_ptr<IPlayer> player = GetInternal();
+  if (player)
+  {
+    player->SetSubtitleShiftPos(value);
+  }
+}
+
+double CApplicationPlayer::GetSubtitleShiftPos()
+{
+  std::shared_ptr<IPlayer> player = GetInternal();
+  if (player)
+  {
+    return player->GetSubtitleShiftPos();
+  }
+  return 0;
+}
+
 void CApplicationPlayer::SetTime(int64_t time)
 {
   std::shared_ptr<IPlayer> player = GetInternal();

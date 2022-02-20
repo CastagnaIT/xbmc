@@ -22,6 +22,8 @@ typedef enum
   ObservableMessagePeripheralsChanged,
   ObservableMessageSettingsChanged,
   ObservableMessageButtonMapsChanged,
+  ObservableMessageResolutionChanged,
+  ObservableMessageResolutionOverscanChanged,
 } ObservableMessage;
 
 class Observer

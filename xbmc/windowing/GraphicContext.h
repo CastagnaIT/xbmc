@@ -14,6 +14,7 @@
 #include "utils/ColorUtils.h"
 #include "utils/Geometry.h" // for CRect/CPoint
 #include "utils/TransformMatrix.h" // for the members m_guiTransform etc.
+#include "utils/Observer.h"
 
 #include <map>
 #include <stack>
@@ -57,7 +58,7 @@ enum AdjustRefreshRate
   ADJUST_REFRESHRATE_ON_START,
 };
 
-class CGraphicContext : public CCriticalSection
+class CGraphicContext : public CCriticalSection, public Observable
 {
 public:
   CGraphicContext(void);

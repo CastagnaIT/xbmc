@@ -38,6 +38,11 @@ protected:
     void CreateSubtitlesStyle();
 
   private:
+    // Implementation of Observer
+    void Notify(const Observable& obs, const ObservableMessage msg) override{};
+    // Implementation of ISettingCallback
+    void OnSettingChanged(const std::shared_ptr<const CSetting>& setting) override{};
+
     std::shared_ptr<struct KODI::SUBTITLES::style> m_debugOverlayStyle;
   };
 

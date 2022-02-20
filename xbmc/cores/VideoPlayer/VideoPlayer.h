@@ -273,6 +273,19 @@ public:
   void SetSubtitle(int iStream) override;
   bool GetSubtitleVisible() override;
   void SetSubtitleVisible(bool bVisible) override;
+
+  /*!
+   * \brief Set the subtitle shift position
+   * \param value The subtitle position in pixels
+   */
+  void SetSubtitleShiftPos(double value) override;
+
+  /*!
+   * \brief Get the subtitle shift position
+   * \return The subtitle position in pixels
+   */
+  double GetSubtitleShiftPos() override;
+
   void AddSubtitle(const std::string& strSubPath) override;
 
   int GetAudioStreamCount() override;

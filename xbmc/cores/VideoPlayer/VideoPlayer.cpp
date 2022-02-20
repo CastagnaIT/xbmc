@@ -3309,6 +3309,16 @@ void CVideoPlayer::SetSubtitleVisibleInternal(bool bVisible)
   CServiceBroker::GetDataCacheCore().SignalSubtitleInfoChange();
 }
 
+void CVideoPlayer::SetSubtitleShiftPos(double value)
+{
+  m_renderManager.SetSubtitleShiftPos(value);
+}
+
+double CVideoPlayer::GetSubtitleShiftPos()
+{
+  return m_renderManager.GetSubtitleShiftPos();
+}
+
 std::shared_ptr<TextCacheStruct_t> CVideoPlayer::GetTeletextCache()
 {
   if (m_CurrentTeletext.id < 0)

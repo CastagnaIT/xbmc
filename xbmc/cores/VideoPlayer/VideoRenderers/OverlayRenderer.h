@@ -11,6 +11,7 @@
 
 #include "BaseRenderer.h"
 #include "cores/VideoPlayer/DVDSubtitles/SubtitlesStyle.h"
+#include "settings/lib/ISettingCallback.h"
 #include "threads/CriticalSection.h"
 #include "utils/Observer.h"
 
@@ -24,6 +25,7 @@ class CDVDOverlayImage;
 class CDVDOverlaySpu;
 class CDVDOverlaySSA;
 class CDVDOverlayText;
+class CSettings;
 
 enum SubtitleAlign
 {
@@ -93,7 +95,7 @@ namespace OVERLAY {
     float m_height;
   };
 
-  class CRenderer : public Observer
+  class CRenderer : public Observer, public ISettingCallback
   {
   public:
     CRenderer();
@@ -110,8 +112,24 @@ namespace OVERLAY {
     void SetVideoRect(CRect &source, CRect &dest, CRect &view);
     void SetStereoMode(const std::string &stereomode);
 
-  protected:
+    /*!
+     * \brief Set the subtitle shift position
+     * \param value The subtitle position in pixels
+     */
+    void SetSubtitleShiftPosition(const double& value);
 
+    /*!
+     * \brief Get the subtitle shift position
+     * \return The subtitle position in pixels
+     */
+    double GetSubtitleShiftPosition();
+
+    /*!
+    * \brief Reset the subtitle position to default value
+    */
+    void ResetSubtitlePosition();
+
+  protected:
     struct SElement
     {
       SElement()
@@ -143,14 +161,20 @@ namespace OVERLAY {
     void ReleaseCache();
     void ReleaseUnused();
 
+    // Implementation of ISettingCallback
+    void OnSettingChanged(const std::shared_ptr<const CSetting>& setting) override;
+
     CCriticalSection m_section;
     std::vector<SElement> m_buffers[NUM_BUFFERS];
     std::map<unsigned int, COverlay*> m_textureCache;
     static unsigned int m_textureid;
     CRect m_rv, m_rs, m_rd;
     std::string m_stereomode;
+    double m_subtitlePosition{0}; // Current subtitle position
+    int m_subtitlePosResInfo{0}; // Current subtitle position from resolution info
 
     std::shared_ptr<struct KODI::SUBTITLES::style> m_overlayStyle;
     bool m_forceUpdateOverlayStyle{false};
+    std::shared_ptr<CSettings> m_settings;
   };
 }

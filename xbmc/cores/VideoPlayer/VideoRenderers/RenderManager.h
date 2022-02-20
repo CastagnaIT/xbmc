@@ -75,6 +75,18 @@ public:
   void ToggleDebug();
   void ToggleDebugVideo();
 
+  /*!
+   * \brief Set the subtitle shift position
+   * \param value The subtitle position in pixels
+   */
+  void SetSubtitleShiftPos(double value);
+
+  /*!
+   * \brief Get the subtitle shift position
+   * \return The subtitle position in pixels
+   */
+  double GetSubtitleShiftPos();
+
   unsigned int AllocRenderCapture();
   void ReleaseRenderCapture(unsigned int captureId);
   void StartRenderCapture(unsigned int captureId, unsigned int width, unsigned int height, int flags);

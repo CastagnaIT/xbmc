@@ -138,6 +138,19 @@ public:
   void SetSubtitle(int iStream);
   void SetSubTitleDelay(float fValue = 0.0f);
   void SetSubtitleVisible(bool bVisible);
+
+  /*!
+   * \brief Set the subtitle shift position
+   * \param value The subtitle position in pixels
+   */
+  void SetSubtitleShiftPos(double value);
+
+  /*!
+   * \brief Get the subtitle shift position
+   * \return The subtitle position in pixels
+   */
+  double GetSubtitleShiftPos();
+
   void SetTime(int64_t time);
   void SetTotalTime(int64_t time);
   void SetVideoStream(int iStream);
