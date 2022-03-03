@@ -72,6 +72,7 @@ OverlayMessage CDVDOverlayCodecText::Decode(DemuxPacket* pPacket)
   }
 
   std::string text(start, end);
+  CLog::Log(LOGERROR, "{} - CODEC PARSER DATA: {}", __FUNCTION__, text);
   double PTSStartTime = 0;
   double PTSStopTime = 0;
 
@@ -82,6 +83,7 @@ OverlayMessage CDVDOverlayCodecText::Decode(DemuxPacket* pPacket)
   {
     TagConv.ConvertLine(text);
     TagConv.CloseTag(text);
+    CLog::Log(LOGERROR, "{} - CODEC PARSED DATA: {}", __FUNCTION__, text);
     AddSubtitle(text, PTSStartTime, PTSStopTime);
   }
   else
