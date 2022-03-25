@@ -876,12 +876,20 @@ void CVideoPlayer::CloseDemuxer()
   CServiceBroker::GetDataCacheCore().SignalSubtitleInfoChange();
 }
 
-void CVideoPlayer::OpenDefaultVideoStream(bool reset /* = true */)
+void CVideoPlayer::OpenDefaultStreams(bool reset)
 {
-  bool valid = false;
+  // if input stream dictate, we will open later
+  if (m_dvd.iSelectedAudioStream >= 0 ||
+      m_dvd.iSelectedSPUStream >= 0)
+    return;
+
+  bool valid;
+
+  // open video stream
+  valid   = false;
 
   PredicateVideoFilter vf(m_processInfo->GetVideoSettings().m_VideoStream);
-  for (const auto& stream : m_SelectionStreams.Get(STREAM_VIDEO, vf))
+  for (const auto &stream : m_SelectionStreams.Get(STREAM_VIDEO, vf))
   {
     if (OpenStream(m_CurrentVideo, stream.demuxerId, stream.id, stream.source, reset))
     {
@@ -894,18 +902,15 @@ void CVideoPlayer::OpenDefaultVideoStream(bool reset /* = true */)
     CloseStream(m_CurrentVideo, true);
     m_processInfo->ResetVideoCodecInfo();
   }
-}
 
-void CVideoPlayer::OpenDefaultAudioStream(bool reset /* = true */)
-{
-  bool valid = false;
+  // open audio stream
+  valid = false;
   if (!m_playerOptions.videoOnly)
   {
-    PredicateAudioFilter af(m_processInfo->GetVideoSettings().m_AudioStream,
-                            m_playerOptions.preferStereo);
-    for (const auto& stream : m_SelectionStreams.Get(STREAM_AUDIO, af))
+    PredicateAudioFilter af(m_processInfo->GetVideoSettings().m_AudioStream, m_playerOptions.preferStereo);
+    for (const auto &stream : m_SelectionStreams.Get(STREAM_AUDIO, af))
     {
-      if (OpenStream(m_CurrentAudio, stream.demuxerId, stream.id, stream.source, reset))
+      if(OpenStream(m_CurrentAudio, stream.demuxerId, stream.id, stream.source, reset))
       {
         valid = true;
         break;
@@ -913,51 +918,43 @@ void CVideoPlayer::OpenDefaultAudioStream(bool reset /* = true */)
     }
   }
 
-  if (!valid)
+  if(!valid)
   {
     CloseStream(m_CurrentAudio, true);
     m_processInfo->ResetAudioCodecInfo();
   }
-}
 
-void CVideoPlayer::OpenDefaultSubtitlesStream(bool reset /* = true */)
-{
-  // enable or disable subtitles
+  // enable  or disable subtitles
   bool visible = m_processInfo->GetVideoSettings().m_SubtitleOn;
 
+  // open subtitle stream
   SelectionStream as = m_SelectionStreams.Get(STREAM_AUDIO, GetAudioStream());
-  PredicateSubtitlePriority psp(as.language, m_processInfo->GetVideoSettings().m_SubtitleStream,
+  PredicateSubtitlePriority psp(as.language,
+                                m_processInfo->GetVideoSettings().m_SubtitleStream,
                                 m_processInfo->GetVideoSettings().m_SubtitleOn);
-  bool valid = false;
+  valid = false;
   CloseStream(m_CurrentSubtitle, false);
-  for (const auto& stream : m_SelectionStreams.Get(STREAM_SUBTITLE, psp))
+  for (const auto &stream : m_SelectionStreams.Get(STREAM_SUBTITLE, psp))
   {
     if (OpenStream(m_CurrentSubtitle, stream.demuxerId, stream.id, stream.source))
     {
       valid = true;
-      if (!psp.relevant(stream))
+      if(!psp.relevant(stream))
         visible = false;
-      else if (stream.flags & StreamFlags::FLAG_FORCED)
+      else if(stream.flags & StreamFlags::FLAG_FORCED)
         visible = true;
       break;
     }
   }
-  if (!valid)
+  if(!valid)
     CloseStream(m_CurrentSubtitle, false);
 
-  // only set subtitle visibility if state not stored by dvd navigator,
-  // because navigator will restore it (if visible)
-  if (!std::dynamic_pointer_cast<CDVDInputStreamNavigator>(m_pInputStream) ||
-      m_playerOptions.state.empty())
-  {
-    SetSubtitleVisibleInternal(visible);
-  }
-}
+  if (!std::dynamic_pointer_cast<CDVDInputStreamNavigator>(m_pInputStream) || m_playerOptions.state.empty())
+    SetSubtitleVisibleInternal(visible); // only set subtitle visibility if state not stored by dvd navigator, because navigator will restore it (if visible)
 
-void CVideoPlayer::OpenDefaultTeletextStream(bool reset /* = true */)
-{
-  bool valid = false;
-  for (const auto& stream : m_SelectionStreams.Get(STREAM_TELETEXT))
+  // open teletext stream
+  valid   = false;
+  for (const auto &stream : m_SelectionStreams.Get(STREAM_TELETEXT))
   {
     if (OpenStream(m_CurrentTeletext, stream.demuxerId, stream.id, stream.source))
     {
@@ -965,14 +962,12 @@ void CVideoPlayer::OpenDefaultTeletextStream(bool reset /* = true */)
       break;
     }
   }
-  if (!valid)
+  if(!valid)
     CloseStream(m_CurrentTeletext, false);
-}
 
-void CVideoPlayer::OpenDefaultRDSStream(bool reset /* = true */)
-{
-  bool valid = false;
-  for (const auto& stream : m_SelectionStreams.Get(STREAM_RADIO_RDS))
+  // open RDS stream
+  valid   = false;
+  for (const auto &stream : m_SelectionStreams.Get(STREAM_RADIO_RDS))
   {
     if (OpenStream(m_CurrentRadioRDS, stream.demuxerId, stream.id, stream.source))
     {
@@ -980,12 +975,10 @@ void CVideoPlayer::OpenDefaultRDSStream(bool reset /* = true */)
       break;
     }
   }
-  if (!valid)
+  if(!valid)
     CloseStream(m_CurrentRadioRDS, false);
-}
 
-void CVideoPlayer::DisableDemuxStreams()
-{
+  // disable demux streams
   if (m_item.IsRemote() && m_pDemuxer)
   {
     for (auto &stream : m_SelectionStreams.m_Streams)
@@ -1003,19 +996,6 @@ void CVideoPlayer::DisableDemuxStreams()
       }
     }
   }
-}
-
-void CVideoPlayer::OpenDefaultStreams(bool reset)
-{
-  // if input stream dictate, we will open later
-  if (m_dvd.iSelectedAudioStream >= 0 || m_dvd.iSelectedSPUStream >= 0)
-    return;
-  OpenDefaultVideoStream(reset);
-  OpenDefaultAudioStream(reset);
-  OpenDefaultSubtitlesStream(reset);
-  OpenDefaultTeletextStream(reset);
-  OpenDefaultRDSStream(reset);
-  DisableDemuxStreams();
 }
 
 bool CVideoPlayer::ReadPacket(DemuxPacket*& packet, CDemuxStream*& stream)
@@ -1063,36 +1043,7 @@ bool CVideoPlayer::ReadPacket(DemuxPacket*& packet, CDemuxStream*& stream)
       m_pDemuxer->GetPrograms(m_programs);
       UpdateContent();
       OpenDefaultStreams(false);
-      // reevaluate HasVideo/Audio, we may have switched from/to a radio channel
-      if(m_CurrentVideo.id < 0)
-        m_HasVideo = false;
-      if(m_CurrentAudio.id < 0)
-        m_HasAudio = false;
 
-      return true;
-    }
-    else if (packet->iStreamId == DMX_SPECIALID_STREAMCHANGE_AV)
-    {
-      for (int type = STREAM_NONE; type != STREAM_ENUM_COUNT; type++)
-      {
-        if (type == STREAM_SUBTITLE)
-          continue;
-
-        m_SelectionStreams.Clear(static_cast<StreamType>(type), STREAM_SOURCE_DEMUX);
-      }
-      m_SelectionStreams.Update(m_pInputStream, m_pDemuxer.get());
-      m_pDemuxer->GetPrograms(m_programs);
-      UpdateContent();
-      // if input stream dictate, we will open later
-      if (!(m_dvd.iSelectedAudioStream >= 0 || m_dvd.iSelectedSPUStream >= 0))
-      {
-        OpenDefaultVideoStream(false);
-        OpenDefaultAudioStream(false);
-        OpenDefaultSubtitlesStream(false);
-        OpenDefaultTeletextStream(false);
-        OpenDefaultRDSStream(false);
-        DisableDemuxStreams();
-      }
       // reevaluate HasVideo/Audio, we may have switched from/to a radio channel
       if(m_CurrentVideo.id < 0)
         m_HasVideo = false;

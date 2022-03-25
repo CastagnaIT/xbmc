@@ -321,8 +321,7 @@ DemuxPacket* CDVDDemuxClient::Read()
     CDVDDemuxUtils::FreeDemuxPacket(m_packet.release());
     return CDVDDemuxUtils::AllocateDemuxPacket(0);
   }
-  else if (m_packet->iStreamId == DMX_SPECIALID_STREAMCHANGE ||
-           m_packet->iStreamId == DMX_SPECIALID_STREAMCHANGE_AV)
+  else if (m_packet->iStreamId == DMX_SPECIALID_STREAMCHANGE)
   {
     RequestStreams();
   }
