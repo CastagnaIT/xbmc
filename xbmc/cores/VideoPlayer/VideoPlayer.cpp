@@ -928,30 +928,48 @@ void CVideoPlayer::OpenDefaultStreams(bool reset)
   bool visible = m_processInfo->GetVideoSettings().m_SubtitleOn;
 
   // open subtitle stream
-  SelectionStream as = m_SelectionStreams.Get(STREAM_AUDIO, GetAudioStream());
-  PredicateSubtitlePriority psp(as.language,
-                                m_processInfo->GetVideoSettings().m_SubtitleStream,
-                                m_processInfo->GetVideoSettings().m_SubtitleOn);
-  valid = false;
-  CloseStream(m_CurrentSubtitle, false);
-  for (const auto &stream : m_SelectionStreams.Get(STREAM_SUBTITLE, psp))
+
+  // Check if the current opened stream still exists,
+  // if exists we still use the same subtitle codec/parser instance
+  auto list = m_SelectionStreams.Get(STREAM_SUBTITLE);
+  auto streamFound = std::find_if(list.begin(), list.end(),
+                                  [&](SelectionStream& item)
+                                  {
+                                    return m_CurrentSubtitle.id == item.id &&
+                                           m_CurrentSubtitle.demuxerId == item.demuxerId;
+                                  });
+
+  // Always reset CC subtitles to avoid mix it when external subtitles are used
+  if (streamFound == list.end() || m_CurrentSubtitle.hint.codec == AV_CODEC_ID_EIA_608)
   {
-    if (OpenStream(m_CurrentSubtitle, stream.demuxerId, stream.id, stream.source))
-    {
-      valid = true;
-      if(!psp.relevant(stream))
-        visible = false;
-      else if(stream.flags & StreamFlags::FLAG_FORCED)
-        visible = true;
-      break;
-    }
-  }
-  if(!valid)
+    CLog::LogF(LOGERROR, "CURRENT STREAM NOT FOUND, OR, CC SUBS, reopen codec handler: {}", reset);
+    SelectionStream as = m_SelectionStreams.Get(STREAM_AUDIO, GetAudioStream());
+    PredicateSubtitlePriority psp(as.language, m_processInfo->GetVideoSettings().m_SubtitleStream,
+                                  m_processInfo->GetVideoSettings().m_SubtitleOn);
+    valid = false;
+
     CloseStream(m_CurrentSubtitle, false);
 
-  if (!std::dynamic_pointer_cast<CDVDInputStreamNavigator>(m_pInputStream) || m_playerOptions.state.empty())
-    SetSubtitleVisibleInternal(visible); // only set subtitle visibility if state not stored by dvd navigator, because navigator will restore it (if visible)
+    for (const auto& stream : m_SelectionStreams.Get(STREAM_SUBTITLE, psp))
+    {
+      if (OpenStream(m_CurrentSubtitle, stream.demuxerId, stream.id, stream.source))
+      {
+        valid = true;
+        if (!psp.relevant(stream))
+          visible = false;
+        else if (stream.flags & StreamFlags::FLAG_FORCED)
+          visible = true;
+        break;
+      }
+    }
+    if (!valid)
+      CloseStream(m_CurrentSubtitle, false);
 
+    if (!std::dynamic_pointer_cast<CDVDInputStreamNavigator>(m_pInputStream) ||
+        m_playerOptions.state.empty())
+      SetSubtitleVisibleInternal(
+          visible); // only set subtitle visibility if state not stored by dvd navigator, because navigator will restore it (if visible)
+  }
   // open teletext stream
   valid   = false;
   for (const auto &stream : m_SelectionStreams.Get(STREAM_TELETEXT))
