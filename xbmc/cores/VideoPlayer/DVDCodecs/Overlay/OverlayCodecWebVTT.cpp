@@ -14,7 +14,7 @@
 #include "cores/VideoPlayer/DVDSubtitles/SubtitlesStyle.h"
 #include "cores/VideoPlayer/Interface/DemuxPacket.h"
 #include "utils/CharArrayParser.h"
-
+#include "utils/log.h"
 #include <cstring>
 #include <memory>
 #include <string>
@@ -77,6 +77,13 @@ OverlayMessage COverlayCodecWebVTT::Decode(DemuxPacket* pPacket)
 
   const char* data = reinterpret_cast<const char*>(pPacket->pData);
   std::vector<subtitleData> subtitleList;
+
+  SubtitlePacketExtraData sideData;
+  if (GetSubtitlePacketExtraData(pPacket, sideData))
+  {
+    CLog::LogF(LOGERROR, "SIDE DATA PARSED! PERIOD TIME: {}", sideData.m_chapterStartTime);
+    m_webvttHandler.SetPeriodStart(sideData.m_chapterStartTime);
+  }
 
   if (m_isISOFormat)
   {
