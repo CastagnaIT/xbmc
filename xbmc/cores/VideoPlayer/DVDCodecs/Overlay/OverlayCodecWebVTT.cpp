@@ -14,7 +14,7 @@
 #include "cores/VideoPlayer/DVDSubtitles/SubtitlesStyle.h"
 #include "cores/VideoPlayer/Interface/DemuxPacket.h"
 #include "utils/CharArrayParser.h"
-
+#include "utils/log.h"
 #include <cstring>
 #include <memory>
 #include <string>
@@ -83,7 +83,7 @@ OverlayMessage COverlayCodecWebVTT::Decode(DemuxPacket* pPacket)
   SubtitlePacketExtraData sideData;
   if (GetSubtitlePacketExtraData(pPacket, sideData))
   {
-    m_webvttHandler.SetPeriodStart(sideData.m_chapterStartTime);
+    m_webvttHandler.SetPeriodStart(sideData.m_chapterStartTime + pPacket->ptsOffsetCorrection);
   }
 
   if (m_isISOFormat)
@@ -120,7 +120,7 @@ OverlayMessage COverlayCodecWebVTT::Decode(DemuxPacket* pPacket)
     // We send an empty line to mark the end of the last Cue
     m_webvttHandler.DecodeLine("", &subtitleList);
   }
-
+  
   for (auto& subData : subtitleList)
   {
     SUBTITLES::STYLE::subtitleOpts opts;
@@ -129,6 +129,7 @@ OverlayMessage COverlayCodecWebVTT::Decode(DemuxPacket* pPacket)
     opts.marginRight = subData.marginRight;
     opts.marginVertical = subData.marginVertical;
 
+    CLog::LogF(LOGERROR, "m_chapterStartTime {} subData.startTime {} corr {}", sideData.m_chapterStartTime, subData.startTime, pPacket->ptsOffsetCorrection);
     int subId = AddSubtitle(subData.text, subData.startTime, subData.stopTime, &opts);
 
     if (m_isISOFormat)

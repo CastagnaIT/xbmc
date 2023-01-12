@@ -258,6 +258,7 @@ ASS_Image* CDVDSubtitlesLibass::RenderImage(double pts,
                                             int* changes)
 {
   std::unique_lock<CCriticalSection> lock(m_section);
+  CLog::LogF(LOGINFO, "PTS: {}", pts);
   if (!m_renderer || !m_track)
   {
     CLog::Log(LOGERROR, "{} - ASS renderer/ASS track not initialized.", __FUNCTION__);

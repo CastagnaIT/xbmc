@@ -86,6 +86,9 @@ extern "C"
     /// @brief Decoding time stamp (DTS).
     double dts;
 
+    /// @brief PTS offset correction applied to the PTS and DTS.
+    double ptsOffsetCorrection;
+
     /// @brief Duration in @ref STREAM_TIME_BASE if available
     double duration;
 

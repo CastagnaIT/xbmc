@@ -34,6 +34,7 @@ extern "C"
 
       pts = DVD_NOPTS_VALUE;
       dts = DVD_NOPTS_VALUE;
+      ptsOffsetCorrection = 0;
       duration = 0;
       dispTime = 0;
       recoveryPoint = false;

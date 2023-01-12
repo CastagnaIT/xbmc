@@ -2250,6 +2250,8 @@ bool CVideoPlayer::CheckPlayerInit(CCurrentStream& current)
 
 void CVideoPlayer::UpdateCorrection(DemuxPacket* pkt, double correction)
 {
+  pkt->ptsOffsetCorrection = correction;
+  CLog::LogF(LOGDEBUG, "ptsOffsetCorrection:{}", correction);
   if(pkt->dts != DVD_NOPTS_VALUE)
     pkt->dts -= correction;
   if(pkt->pts != DVD_NOPTS_VALUE)
