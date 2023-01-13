@@ -5059,6 +5059,11 @@ bool CVideoPlayer::RenderCaptureGetPixels(unsigned int captureId, unsigned int m
   return m_renderManager.RenderCaptureGetPixels(captureId, millis, buffer, size);
 }
 
+double CVideoPlayer::GetPTSOffsetCorrection() const
+{
+  return m_offset_pts;
+}
+
 void CVideoPlayer::VideoParamsChange()
 {
   m_messenger.Put(std::make_shared<CDVDMsg>(CDVDMsg::PLAYER_AVCHANGE));

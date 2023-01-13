@@ -211,6 +211,15 @@ bool CApplicationPlayer::HasAudio() const
   return (player && player->HasAudio());
 }
 
+double CApplicationPlayer::GetPTSOffsetCorrection() const
+{
+  std::shared_ptr<const IPlayer> player = GetInternal();
+  if (player)
+    return player->GetPTSOffsetCorrection();
+
+  return 0;
+}
+
 bool CApplicationPlayer::HasVideo() const
 {
   std::shared_ptr<const IPlayer> player = GetInternal();

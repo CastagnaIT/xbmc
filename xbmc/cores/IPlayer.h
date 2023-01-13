@@ -257,6 +257,8 @@ public:
     return false;
   }
 
+  virtual double GetPTSOffsetCorrection() const { return 0; }
+
   // video and audio settings
   virtual CVideoSettings GetVideoSettings() const { return CVideoSettings(); }
   virtual void SetVideoSettings(CVideoSettings& settings) {}

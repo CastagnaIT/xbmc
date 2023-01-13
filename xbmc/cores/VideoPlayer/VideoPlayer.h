@@ -345,6 +345,8 @@ public:
   void RenderCaptureRelease(unsigned int captureId) override;
   bool RenderCaptureGetPixels(unsigned int captureId, unsigned int millis, uint8_t *buffer, unsigned int size) override;
 
+  double GetPTSOffsetCorrection() const override;
+
   // IDispResource interface
   void OnLostDisplay() override;
   void OnResetDisplay() override;

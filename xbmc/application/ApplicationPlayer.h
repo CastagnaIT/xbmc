@@ -109,6 +109,7 @@ public:
   void SetProgram(int progId);
   int GetProgramsCount() const;
   bool HasAudio() const;
+  double GetPTSOffsetCorrection() const;
 
   /*!
    * \brief Get the supported menu type

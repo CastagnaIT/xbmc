@@ -11,6 +11,9 @@
 #include "DVDCodecs/DVDCodecs.h"
 #include "DVDOverlayText.h"
 #include "DVDStreamInfo.h"
+#include "ServiceBroker.h"
+#include "application/ApplicationComponents.h"
+#include "application/ApplicationPlayer.h"
 #include "cores/VideoPlayer/DVDSubtitles/SubtitlesStyle.h"
 #include "cores/VideoPlayer/Interface/DemuxPacket.h"
 #include "utils/CharArrayParser.h"
@@ -80,12 +83,22 @@ OverlayMessage COverlayCodecWebVTT::Decode(DemuxPacket* pPacket)
 
   m_webvttHandler.Reset();
 
+  
   SubtitlePacketExtraData sideData;
   if (GetSubtitlePacketExtraData(pPacket, sideData))
   {
-    m_webvttHandler.SetPeriodStart(sideData.m_chapterStartTime + pPacket->ptsOffsetCorrection);
-  }
 
+    auto& components = CServiceBroker::GetAppComponents();
+    const auto appPlayer = components.GetComponent<CApplicationPlayer>();
+    m_webvttHandler.SetPeriodStart(appPlayer->GetPTSOffsetCorrection());
+    CLog::LogF(LOGERROR, "GetPTSOffsetCorrection: {}", appPlayer->GetPTSOffsetCorrection());
+
+/*
+    m_webvttHandler.SetPeriodStart(sideData.m_chapterStartTime + pPacket->ptsOffsetCorrection);
+    CLog::LogF(LOGERROR, "GetPTSOffsetCorrection: {}", pPacket->ptsOffsetCorrection);
+*/
+  }
+  
   if (m_isISOFormat)
   {
     double prevSubStopTime = 0.0;
@@ -129,7 +142,7 @@ OverlayMessage COverlayCodecWebVTT::Decode(DemuxPacket* pPacket)
     opts.marginRight = subData.marginRight;
     opts.marginVertical = subData.marginVertical;
 
-    CLog::LogF(LOGERROR, "m_chapterStartTime {} subData.startTime {} corr {}", sideData.m_chapterStartTime, subData.startTime, pPacket->ptsOffsetCorrection);
+    //CLog::LogF(LOGERROR, "m_chapterStartTime {} subData.startTime {} corr {}", sideData.m_chapterStartTime, subData.startTime, pPacket->ptsOffsetCorrection);
     int subId = AddSubtitle(subData.text, subData.startTime, subData.stopTime, &opts);
 
     if (m_isISOFormat)
