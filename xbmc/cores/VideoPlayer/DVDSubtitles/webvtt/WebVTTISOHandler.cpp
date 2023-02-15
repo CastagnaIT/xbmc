@@ -79,8 +79,8 @@ void CWebVTTISOHandler::DecodeStream(const char* buffer,
       // VTTC can be used to set the stop time value to previously subtitles
       prevSubStopTime = pts;
       m_subtitleData = subtitleData();
-      m_subtitleData.startTime = pts;
-      m_subtitleData.stopTime = pts + defaultSubDuration;
+      m_subtitleData.startTime = pts + m_offset;
+      m_subtitleData.stopTime = pts + m_offset + defaultSubDuration;
       if (ParseVTTCueBox(sampleData, boxSize - MP4_BOX_HEADER_SIZE, subList))
         subList->emplace_back(m_subtitleData);
     }
@@ -89,8 +89,8 @@ void CWebVTTISOHandler::DecodeStream(const char* buffer,
       // VTTX could be used to set the stop time value to previously subtitles
       prevSubStopTime = pts;
       m_subtitleData = subtitleData();
-      m_subtitleData.startTime = pts;
-      m_subtitleData.stopTime = pts + defaultSubDuration;
+      m_subtitleData.startTime = pts + m_offset;
+      m_subtitleData.stopTime = pts + m_offset + defaultSubDuration;
       if (ParseVTTCueBox(sampleData, boxSize - MP4_BOX_HEADER_SIZE, subList))
         subList->emplace_back(m_subtitleData);
     }

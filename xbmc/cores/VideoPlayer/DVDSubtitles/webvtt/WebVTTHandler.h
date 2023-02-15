@@ -187,6 +187,7 @@ protected:
   void ConvertSubtitle(std::string& text);
   void GetCueSettings(std::string& cueSettings);
   subtitleData m_subtitleData;
+  double m_offset{0.0};
 
 private:
   bool IsCueLine(std::string& line);
@@ -232,5 +233,4 @@ private:
 
   bool m_CSSColorsLoaded{false};
   std::vector<std::pair<std::string, UTILS::COLOR::ColorInfo>> m_CSSColors;
-  double m_offset{0.0};
 };
