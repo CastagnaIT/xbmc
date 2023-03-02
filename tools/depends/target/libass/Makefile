@@ -3,10 +3,11 @@ DEPS = ../../Makefile.include Makefile ../../download-files.include
 
 # lib name, version
 LIBNAME=libass
-VERSION=0.15.2
-SOURCE=$(LIBNAME)-$(VERSION)
+VERSION=0.17.1-branch
+BASE_URL=https://github.com/libass/libass/archive/refs/heads
+SOURCE=$(VERSION)
 ARCHIVE=$(SOURCE).tar.gz
-SHA512=3b8022ca500d4a9e19e9b7106e29d23d4bca20012619c829bc3e77437bcb3c7bd8364800f7daeb3f2d8400afc7bbcaab487c7b30c429d9aed70e37ce4cb265a2
+SHA512=f7fdaed039a89d396e1cfcc0e4ce07901e5d39428169f1ea1da71e63597b2e72046acd94179aca678af97d12d816fb5bf627342e3792e12bff17870d05abefa3
 include ../../download-files.include
 
 ifeq ($(OS),android)
