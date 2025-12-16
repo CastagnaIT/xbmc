@@ -237,6 +237,14 @@ public:
   static bool IsInternetStream(const CURL& url, bool bStrictCheck = false);
   static bool IsStreamedFilesystem(const std::string& strPath);
   static bool IsNetworkFilesystem(const std::string& strPath);
+
+  /*!
+   * \brief Determines whether the path come from a network service
+   *        browsable by modifying the path (e.g. Samba, FTP, ...).
+   * \param path The path
+   * \return True if the path is browsable, otherwise false
+   */
+  static bool IsNetworkPathBrowsable(const std::string& path);
   static bool IsInAPK(const std::string& strFile);
   static bool IsInZIP(const std::string& strFile);
   static bool IsISO9660(const std::string& strFile);

@@ -1383,6 +1383,19 @@ bool URIUtils::IsNetworkFilesystem(const std::string& strPath)
   return false;
 }
 
+bool URIUtils::IsNetworkPathBrowsable(const std::string& path)
+{
+  if (IsSmb(path) || IsNfs(path) || IsFTP(path) || IsDAV(path))
+    return true;
+
+  //! @todo sftp/ssh special case has to be handled by vfs addon
+  CURL url(path);
+  if (url.IsProtocol("sftp") || url.IsProtocol("ssh"))
+    return true;
+
+  return false;
+}
+
 bool URIUtils::IsUPnP(const std::string& strFile)
 {
   return IsProtocol(strFile, "upnp");
