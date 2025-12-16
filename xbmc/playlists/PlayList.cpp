@@ -470,20 +470,18 @@ bool CPlayList::Expand(int position)
   // remove any item that points back to itself
   for (int i = 0;i<playlist->size();i++)
   {
-    if (StringUtils::EqualsNoCase((*playlist)[i]->GetPath(), path))
+    CFileItemPtr iItem = (*playlist)[i];
+    if (StringUtils::EqualsNoCase(iItem->GetDynPath(), path))
     {
       playlist->Remove(i);
       i--;
     }
   }
 
-  // @todo
-  // never change original path (id) of a file item
   for (int i = 0;i<playlist->size();i++)
   {
-    (*playlist)[i]->SetDynPath((*playlist)[i]->GetPath());
-    (*playlist)[i]->SetPath(item->GetDynPath());
-    (*playlist)[i]->SetStartOffset(item->GetStartOffset());
+    CFileItemPtr iItem = (*playlist)[i];
+    iItem->SetStartOffset(item->GetStartOffset());
   }
 
   if (playlist->size() <= 0)

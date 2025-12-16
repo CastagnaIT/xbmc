@@ -119,7 +119,8 @@ bool CPlayListXML::Load( const std::string& strFileName )
 
        std::string info = name;
        CFileItemPtr newItem( new CFileItem(info) );
-       newItem->SetPath(url);
+       newItem->SetPath(strFileName);
+       newItem->SetDynPath(url);
 
        // Set language as metadata
        if ( !lang.empty() )

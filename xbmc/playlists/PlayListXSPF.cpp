@@ -116,7 +116,8 @@ bool CPlayListXSPF::Load(const std::string& strFileName)
 #endif
         localpath = URIUtils::GetRealPath(localpath);
 
-        newItem->SetPath(localpath);
+        newItem->SetPath(strFileName);
+        newItem->SetDynPath(localpath);
       }
       else
       {

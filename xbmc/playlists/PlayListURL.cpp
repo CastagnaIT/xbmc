@@ -55,7 +55,13 @@ bool CPlayListURL::Load(const std::string& strFileName)
       {
         StringUtils::RemoveCRLF(strLine);
         if (StringUtils::StartsWith(strLine, "URL="))
-          Add(std::make_shared<CFileItem>(strLine.substr(4), false));
+        {
+          auto newItem = std::make_shared<CFileItem>();
+          newItem->SetPath(strFileName);
+          newItem->SetDynPath(strLine.substr(4));
+
+          Add(newItem);
+        }
       }
     }
   }

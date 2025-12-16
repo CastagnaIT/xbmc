@@ -172,7 +172,10 @@ bool CPlayListM3U::Load(const std::string& strFileName)
         // Get the full path file name and add it to the the play list
         CUtil::GetQualifiedFilename(m_strBasePath, filePath);
         CFileItemPtr newItem(new CFileItem(strInfo));
-        newItem->SetPath(filePath);
+
+        newItem->SetPath(strFileName);
+        newItem->SetDynPath(filePath);
+
         if (iStartOffset != 0 || iEndOffset != 0)
         {
           newItem->SetStartOffset(iStartOffset);
