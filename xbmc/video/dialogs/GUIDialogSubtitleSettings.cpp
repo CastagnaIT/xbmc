@@ -24,6 +24,7 @@
 #include "guilib/GUIComponent.h"
 #include "guilib/GUIWindowManager.h"
 #include "guilib/LocalizeStrings.h"
+#include "playlists/PlayListFactory.h"
 #include "profiles/ProfileManager.h"
 #include "settings/AdvancedSettings.h"
 #include "settings/MediaSettings.h"
@@ -128,8 +129,19 @@ std::string CGUIDialogSubtitleSettings::BrowseForSubtitle()
   }
 
   std::string strPath;
-  const std::string dynPath{g_application.CurrentFileItem().GetDynPath()};
-  if (URIUtils::IsInRAR(dynPath) || URIUtils::IsInZIP(dynPath))
+  const CFileItem& fileItem = g_application.CurrentFileItem();
+  const std::string dynPath{fileItem.GetDynPath()};
+
+  // Playlists (e.g. STRM/M3U) can contains media urls that are not browsable f.e. web hosted files
+  // or urls of non-media files that need to be played by using InputStream add-ons,
+  // then with the exception of network services f.e. FTP or Samba, you should browse
+  // files starting from the playlist file path, and not by using the media url.
+  if (KODI::PLAYLIST::CPlayListFactory::IsPlaylist(fileItem.GetPath()) &&
+      !URIUtils::IsNetworkPathBrowsable(dynPath))
+  {
+    strPath = fileItem.GetPath();
+  }
+  else if (URIUtils::IsInRAR(dynPath) || URIUtils::IsInZIP(dynPath))
   {
     strPath = CURL(dynPath).GetHostName();
   }
